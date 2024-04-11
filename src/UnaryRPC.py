@@ -1,7 +1,7 @@
 import grpc
 from concurrent import futures
-import order_management_Unary_pb2
-import order_management_Unary_pb2_grpc
+import order_management_pb2
+import order_management_pb2_grpc
 from datetime import datetime
 
 class OrderManagementServicer(order_management_Unary_pb2_grpc.OrderManagementServicer):
