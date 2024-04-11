@@ -2,8 +2,8 @@ syntax = "proto3";
 package ordermanagement;
 
 service OrderManagement {
-    rpc getOrder (OrderRequest) returns (OrderResponse) {}
-    rpc receiveMessages (ReceiveMessagesRequest) returns (stream ReceiveMessagesResponse) {}
+    rpc getOrder(OrderRequest) returns(OrderResponse) {}
+    rpc receiveMessages(ReceiveMessagesRequest) returns(stream ReceiveMessagesResponse) {}
 }
 
 message OrderRequest {
