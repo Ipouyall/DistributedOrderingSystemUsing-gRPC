@@ -2,8 +2,9 @@ all: server_streaming order_management
 
 deps:
 	@echo "Installing needed dependencies to compile project"
-	pip install grpcio-tools
-	pip install protobuf
+	pip install grpcio-tools -q
+	pip install protobuf -q
+	@echo "Please install 'protoc' from https://github.com/protocolbuffers/protobuf/releases"
 
 order_management:
 	@echo "Building Order Management artifacts..."
