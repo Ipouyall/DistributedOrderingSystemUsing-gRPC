@@ -1,0 +1,26 @@
+syntax = "proto3";
+
+package ordermanagement;
+
+service OrderManagement {
+    // Unary
+    rpc getOrder (OrderRequest) returns (OrderResponse) {}
+
+    // Server Streaming
+	rpc searchOrders (OrderRequest) returns (stream OrderResponse);
+	
+	// Client Streaming
+	rpc updateOrders (stream OrderRequest) returns (OrderResponse);
+
+	// Both Streaming
+	rpc processOrders (stream OrderRequest) returns (stream OrderResponse);
+}
+
+message OrderRequest {
+    string order_name = 1;
+}
+
+message OrderResponse {
+    string item_name = 1;
+    string timestamp = 2;
+}
