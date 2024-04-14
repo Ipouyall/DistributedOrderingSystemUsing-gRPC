@@ -18,18 +18,21 @@ def run():
                 response = client.getOrder(order_management_pb2.OrderRequest(order_name=order_name))
                 print(response)
             elif choice == "2":
-                num_messages = int(input("Enter number of messages: "))
-                responses = client.searchOrders(order_management_pb2.ReceiveMessagesRequest(num_messages=num_messages))
+                order_name = input("Enter order name: ")
+                responses = client.searchOrders(order_management_pb2.OrderRequest(order_name=order_name))
                 for response in responses:
                     print(response)
             elif choice == "3":
-                messages = []
+                old_names = []
+                new_names = []
                 while True:
-                    message = input("Enter message (leave empty to stop): ")
-                    if not message:
+                    old_name = input("Enter order name (leave empty to stop): ")
+                    if not old_name:
                         break
-                    messages.append(message)
-                response = client.updateOrders(iter([order_management_pb2.UploadMessagesRequest(messages=messages)]))
+                    new_name = input("Enter new order name: ")
+                    old_names.append(old_name)
+                    new_names.append(new_name)
+                response = client.updateOrders(iter([order_management_pb2.UpdateOrderRequest(old_order_names=old_names, new_order_names=new_names)]))
                 print(response)
             elif choice == "4":
                 messages = []

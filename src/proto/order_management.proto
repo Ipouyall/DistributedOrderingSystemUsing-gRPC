@@ -8,10 +8,10 @@ service OrderManagement {
     rpc getOrder (OrderRequest) returns (OrderResponse) {}
 
     //Server Streaming
-    rpc searchOrders (ReceiveMessagesRequest) returns (stream ReceiveMessagesResponse) {}
+    rpc searchOrders (OrderRequest) returns (stream OrderResponse) {}
 
     //Client Streaming
-    rpc updateOrders (stream UploadMessagesRequest) returns (UploadMessagesResponse) {}
+    rpc updateOrders (stream UpdateOrderRequest) returns (UpdateOrderResponse) {}
 
     //Bidirectional Streaming
     rpc processOrders (stream ChatMessage) returns (stream ChatMessage) {}
@@ -26,19 +26,12 @@ message OrderResponse {
     string timestamp = 2;
 }
 
-message ReceiveMessagesRequest {
-    int32 num_messages = 1;
+message UpdateOrderRequest {
+    repeated string old_order_names = 1;
+    repeated string new_order_names = 2;
 }
 
-message ReceiveMessagesResponse {
-    repeated string messages = 1;
-}
-
-message UploadMessagesRequest {
-    repeated string messages = 1;
-}
-
-message UploadMessagesResponse {
+message UpdateOrderResponse {
     string confirmation = 1;
 }
 
