@@ -9,7 +9,7 @@ def run():
         while True:
             print("1. Get Order - Unary")
             print("2. Search Orders - Streaming Server")
-            print("3. Update Orders - Client Server")
+            print("3. Update Orders - Client Streaming")
             print("4. Process Orders - Birdirectional Streaming")
             choice = input("Enter your choice (1-4): ")
             
