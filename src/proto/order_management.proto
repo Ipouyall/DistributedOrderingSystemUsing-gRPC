@@ -14,7 +14,7 @@ service OrderManagement {
     rpc updateOrders (stream UpdateOrderRequest) returns (UpdateOrderResponse) {}
 
     //Bidirectional Streaming
-    rpc processOrders (stream ChatMessage) returns (stream ChatMessage) {}
+    rpc processOrders (stream OrderRequest) returns (stream ShipmentResponse) {}
 }
 
 message OrderRequest {
@@ -27,14 +27,15 @@ message OrderResponse {
 }
 
 message UpdateOrderRequest {
-    repeated string old_order_names = 1;
-    repeated string new_order_names = 2;
+    string old_order_name = 1;
+    string new_order_name = 2;
 }
 
 message UpdateOrderResponse {
     string confirmation = 1;
 }
 
-message ChatMessage {
-    string message = 1;
+message ShipmentResponse {
+    string id = 1;
+    repeated string orders = 2;
 }

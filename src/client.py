@@ -12,7 +12,7 @@ def run():
             print("3. Update Orders - Client Streaming")
             print("4. Process Orders - Birdirectional Streaming")
             choice = input("Enter your choice (1-4): ")
-            
+
             if choice == "1":
                 order_name = input("Enter order name: ")
                 response = client.getOrder(order_management_pb2.OrderRequest(order_name=order_name))
@@ -23,25 +23,24 @@ def run():
                 for response in responses:
                     print(response)
             elif choice == "3":
-                old_names = []
-                new_names = []
+                names = []
                 while True:
                     old_name = input("Enter order name (leave empty to stop): ")
                     if not old_name:
                         break
                     new_name = input("Enter new order name: ")
-                    old_names.append(old_name)
-                    new_names.append(new_name)
-                response = client.updateOrders(iter([order_management_pb2.UpdateOrderRequest(old_order_names=old_names, new_order_names=new_names)]))
+                    names.append((old_name, new_name))
+                response = client.updateOrders(iter([order_management_pb2.UpdateOrderRequest(old_order_name=old_name, new_order_name=new_name) for old_name, new_name in names]))
                 print(response)
             elif choice == "4":
-                messages = []
+                order_names = []
                 while True:
-                    message = input("Enter message (leave empty to stop): ")
-                    if not message:
+                    order_name = input("Enter order name (leave empty to start processing): ")
+                    if not order_name:
                         break
-                    messages.append(message)
-                responses = client.processOrders(iter([order_management_pb2.ChatMessage(message=message) for message in messages]))
+                    order_names.append(order_name)
+                responses = client.processOrders(iter([order_management_pb2.OrderRequest(order_name=order_name) for order_name in order_names]))
+                print(responses)
                 for response in responses:
                     print(response)
             else:
