@@ -5,6 +5,7 @@ import order_management_pb2_grpc
 from datetime import datetime
 
 class OrderManagementServicer(order_management_pb2_grpc.OrderManagementServicer):
+        
     def getOrder(self, request, context):
         server_orders = ['banana', 'apple', 'orange', 'grape', 'red apple', 'kiwi', 'mango', 'pear', 'cherry', 'green apple']
         order_name = request.order_name.lower()
@@ -19,11 +20,14 @@ class OrderManagementServicer(order_management_pb2_grpc.OrderManagementServicer)
 
     def searchOrders(self, request, context):
         server_orders = ['banana', 'apple', 'orange', 'grape', 'red apple', 'kiwi', 'mango', 'pear', 'cherry', 'green apple']
-        print(server_orders)
-        num_messages = request.num_messages
+        order_name = request.order_name.lower()
+        matching_orders = [order for order in server_orders if order_name in order.lower()]
 
-        for _ in range(num_messages):
-            yield order_management_pb2.ReceiveMessagesResponse(messages=server_orders)
+        if not matching_orders:
+            yield order_management_pb2.OrderResponse(item_name="Item not found", timestamp=str(datetime.now()))
+        else:
+            for order in matching_orders:
+                yield order_management_pb2.OrderResponse(item_name=order, timestamp=str(datetime.now()))
 
     def updateOrders(self, request_iterator, context):
         received_messages = []

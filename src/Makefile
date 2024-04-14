@@ -1,4 +1,10 @@
-all: server_streaming order_management
+all: order_management
+
+ifeq ($(OS),Windows_NT)
+    RM = del /q
+else
+    RM = rm -f
+endif
 
 deps:
 	@echo "Installing needed dependencies to compile project"
@@ -10,6 +16,6 @@ order_management:
 	@echo "Building Order Management artifacts..."
 	python -m grpc_tools.protoc -I=./proto --python_out=./ --grpc_python_out=./ order_management.proto
 
-server_streaming:
-	@echo "Building Server Streaming artifacts..."
-	python -m grpc_tools.protoc -I=./proto --python_out=. --grpc_python_out=. order_management_serverStreaming.proto
+clean:
+	@echo "Cleaning up..."
+	$(RM) *_pb2.py *_pb2_grpc.py

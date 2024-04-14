@@ -1,18 +1,20 @@
 syntax = "proto3";
+
 package ordermanagement;
 
 service OrderManagement {
-    // Unary
-    rpc getOrder(OrderRequest) returns(OrderResponse) {}
 
-    // Server Streaming
-	rpc searchOrders(OrderRequest) returns(stream OrderResponse);
-	
-	// Client Streaming
-	rpc updateOrders(stream OrderRequest) returns(OrderResponse);
+    //Unary
+    rpc getOrder (OrderRequest) returns (OrderResponse) {}
 
-	// Both Streaming
-	rpc processOrders(stream OrderRequest) returns(stream OrderResponse);
+    //Server Streaming
+    rpc searchOrders (ReceiveMessagesRequest) returns (stream ReceiveMessagesResponse) {}
+
+    //Client Streaming
+    rpc updateOrders (stream UploadMessagesRequest) returns (UploadMessagesResponse) {}
+
+    //Bidirectional Streaming
+    rpc processOrders (stream ChatMessage) returns (stream ChatMessage) {}
 }
 
 message OrderRequest {
@@ -22,4 +24,24 @@ message OrderRequest {
 message OrderResponse {
     string item_name = 1;
     string timestamp = 2;
+}
+
+message ReceiveMessagesRequest {
+    int32 num_messages = 1;
+}
+
+message ReceiveMessagesResponse {
+    repeated string messages = 1;
+}
+
+message UploadMessagesRequest {
+    repeated string messages = 1;
+}
+
+message UploadMessagesResponse {
+    string confirmation = 1;
+}
+
+message ChatMessage {
+    string message = 1;
 }
